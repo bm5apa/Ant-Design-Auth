@@ -17,7 +17,6 @@ export function middleware(request: NextRequest) {
   // 如果没有token且不是公开页面，重定向到登录页
   if (!token && !["/", "/homepage"].includes(pathname)) {
     const loginUrl = new URL("/login", urlObj.origin);
-    loginUrl.searchParams.set("redirect", pathname);
     return NextResponse.redirect(loginUrl);
   }
 

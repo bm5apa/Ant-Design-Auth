@@ -9,7 +9,7 @@ const { Title } = Typography;
 export default function Page() {
   return (
     <GeneralPageContainer>
-      <div className="page-content homepage">
+      <>
         <Title level={2}>Welcome to Login Page</Title>
         <Divider />
         <LoginTable />
@@ -17,7 +17,7 @@ export default function Page() {
         <Button size="large" href="/">
           Back to Homepage
         </Button>
-      </div>
+      </>
     </GeneralPageContainer>
   );
 }

@@ -7,13 +7,13 @@ import { Button, Divider } from "antd";
 export default function Page() {
   return (
     <GeneralPageContainer>
-      <div className="page-content homepage">
+      <>
         <Welcome variant="borderless" title="This is Homepage" />
         <Divider />
         <Button size="large" href="/login">
           Enter the Login Page
         </Button>
-      </div>
+      </>
     </GeneralPageContainer>
   );
 }

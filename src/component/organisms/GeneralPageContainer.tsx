@@ -10,8 +10,10 @@ export default function GeneralPageContainer({
 }: IGeneralPageContainer) {
   return (
     <div className="general-page-container container-fluid">
-      {/* <Initializer /> */}
-      {children}
+      <div className="page-content">
+        {/* <Initializer /> */}
+        {children}
+      </div>
     </div>
   );
 }
