@@ -23,18 +23,17 @@ export default function LoginTable() {
       });
 
       if (response.data.success) {
-        message.success("登录成功！");
-        // 如果用户选择了"记住我"，可以在这里存储token
+        message.success("Login successfully！");
         if (values.remember) {
           localStorage.setItem("token", response.data.token);
         }
-        router.push("/dashboard"); // 登录成功后跳转到仪表板页面
+        router.push("/dashboard");
       } else {
-        message.error(response.data.message || "登录失败");
+        message.error(response.data.message || "Login Failed.");
       }
     } catch (error) {
-      message.error("登录失败，请检查网络连接或联系管理员");
-      console.error("登录错误:", error);
+      message.error("Login Failed. Please contact the manager.");
+      console.error("Login Error", error);
     } finally {
       setLoading(false);
     }
@@ -44,7 +43,7 @@ export default function LoginTable() {
     errorInfo
   ) => {
     console.log("Failed:", errorInfo);
-    message.error("请填写所有必填字段");
+    message.error("Please Fill All the Table.");
   };
 
   return (
@@ -62,7 +61,7 @@ export default function LoginTable() {
         <Form.Item<FieldType>
           label="Username"
           name="username"
-          rules={[{ required: true, message: "请输入用户名!" }]}
+          rules={[{ required: true, message: "Please input the Username!" }]}
         >
           <Input />
         </Form.Item>
@@ -70,7 +69,7 @@ export default function LoginTable() {
         <Form.Item<FieldType>
           label="Password"
           name="password"
-          rules={[{ required: true, message: "请输入密码!" }]}
+          rules={[{ required: true, message: "Please input the Password!" }]}
         >
           <Input.Password />
         </Form.Item>
@@ -80,12 +79,12 @@ export default function LoginTable() {
           valuePropName="checked"
           label={null}
         >
-          <Checkbox>记住我</Checkbox>
+          <Checkbox>Remeber Me</Checkbox>
         </Form.Item>
 
         <Form.Item label={null}>
           <Button type="primary" htmlType="submit" loading={loading}>
-            登录
+            Login
           </Button>
         </Form.Item>
       </Form>
