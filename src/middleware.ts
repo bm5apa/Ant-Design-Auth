@@ -4,14 +4,14 @@ import { NextResponse } from "next/server";
 export function middleware(request: NextRequest) {
   const url = request?.url || "";
   const urlObj = new URL(url);
+  const pathname = urlObj.pathname;
+
   const rewrite = (path: string) => {
     const response = NextResponse.rewrite(new URL(path + urlObj.search, url));
     response.headers.delete("X-Envoy-Upstream-Service-Time");
     response.headers.delete("X-Url");
     return response;
   };
-
-  let pathname = urlObj.pathname;
 
   if (pathname !== "/" && pathname.endsWith("/")) {
     const newPathname = pathname.replace(/\/+$/, "");
@@ -40,8 +40,7 @@ export function middleware(request: NextRequest) {
     ? pathname.replace("/", "")
     : pathname;
 
-  const [pathSegment1, pathSegment2, pathSegment3, pathSegment4] =
-    normalizedPathname.split("/");
+  const [pathSegment1] = normalizedPathname.split("/");
 
   if (!pathSegment1) {
     return rewrite("/homepage");
@@ -50,28 +49,6 @@ export function middleware(request: NextRequest) {
   if (pathSegment1) {
     return rewrite(`/${pathSegment1}`);
   }
-
-  // if (
-  //   process.env.NODE_ENV === "development" &&
-  //   request.nextUrl.pathname === "/robots.txt"
-  // ) {
-  //   const robots = `
-  //     User-agent: *
-  //     Disallow: /
-  //   `;
-  //   return new NextResponse(robots, {
-  //     headers: { "Content-Type": "text/plain" },
-  //   });
-  // }
-
-  // if (["sitemap.xml"].includes(pathSegment1)) {
-  //   // Redirect to the sitemap API route
-  //   return NextResponse.rewrite(new URL("/api/sitemap", request.url));
-  // }
-
-  // if (["horse-racing-sitemap.xml", "robots.txt"].includes(pathSegment1)) {
-  //   return NextResponse.rewrite(new URL(`/sitemap/${pathSegment1}`, url));
-  // }
 
   return rewrite(`/`);
 }
