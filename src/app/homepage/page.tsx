@@ -11,7 +11,7 @@ export default function Page() {
         <Welcome variant="borderless" title="This is Homepage" />
         <Divider />
         <Button size="large" href="/login">
-          Login
+          Enter the Login Page
         </Button>
       </div>
     </GeneralPageContainer>

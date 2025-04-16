@@ -10,12 +10,12 @@ export default function Page() {
   return (
     <GeneralPageContainer>
       <div className="page-content homepage">
-        <Title level={2}>登录页面</Title>
+        <Title level={2}>Welcome to Login Page</Title>
         <Divider />
         <LoginTable />
         <Divider />
         <Button size="large" href="/">
-          返回首页
+          Back to Homepage
         </Button>
       </div>
     </GeneralPageContainer>

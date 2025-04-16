@@ -37,7 +37,7 @@ export default function LoginTable() {
       console.log("Login response:", response.data);
 
       if (response.data.success) {
-        message.success("登录成功！正在跳转...");
+        message.success("Login successfully！Redirect Now...");
 
         if (values.remember) {
           localStorage.setItem("token", response.data.token);
@@ -47,7 +47,7 @@ export default function LoginTable() {
           router.push("/dashboard");
         }, 1500);
       } else {
-        message.error(response.data.message || "登录失败");
+        message.error(response.data.message || "Login Failed.");
       }
     } catch (error: unknown) {
       const axiosError = error as AxiosError;
@@ -55,12 +55,15 @@ export default function LoginTable() {
 
       if (axiosError.response) {
         message.error(
-          axiosError.response.data?.message || "登录失败，请检查用户名和密码"
+          axiosError.response.data?.message ||
+            "Login Failed, Please Check the Username and Password."
         );
       } else if (axiosError.request) {
-        message.error("无法连接到服务器，请检查网络连接");
+        message.error(
+          "Unable to Connect to the Server, Please Check the Internet Connection."
+        );
       } else {
-        message.error("登录失败，请稍后重试");
+        message.error("Login Failed, Please Try Again Later.");
       }
     } finally {
       setLoading(false);
@@ -71,12 +74,12 @@ export default function LoginTable() {
     errorInfo
   ) => {
     console.log("Validation failed:", errorInfo);
-    message.warning("请填写所有必填字段");
+    message.warning("Please Fill In All the Required Section.");
   };
 
   return (
     <div className="login-table__container">
-      <Spin spinning={loading} tip="正在登录中...">
+      <Spin spinning={loading} tip="Login Now...">
         <Form
           name="basic"
           labelCol={{ span: 8 }}
@@ -90,17 +93,17 @@ export default function LoginTable() {
           <Form.Item<FieldType>
             label="Username"
             name="username"
-            rules={[{ required: true, message: "请输入用户名!" }]}
+            rules={[{ required: true, message: "Please Input Your Username!" }]}
           >
-            <Input placeholder="请输入用户名" />
+            <Input placeholder="eg: admin" />
           </Form.Item>
 
           <Form.Item<FieldType>
             label="Password"
             name="password"
-            rules={[{ required: true, message: "请输入密码!" }]}
+            rules={[{ required: true, message: "Please Input Your Password!" }]}
           >
-            <Input.Password placeholder="请输入密码" />
+            <Input.Password placeholder="eg: admin123" />
           </Form.Item>
 
           <Form.Item<FieldType>
@@ -108,12 +111,12 @@ export default function LoginTable() {
             valuePropName="checked"
             label={null}
           >
-            <Checkbox>记住我</Checkbox>
+            <Checkbox>Remember Me</Checkbox>
           </Form.Item>
 
           <Form.Item label={null}>
             <Button type="primary" htmlType="submit" block>
-              登录
+              Login
             </Button>
           </Form.Item>
         </Form>
