@@ -2,19 +2,20 @@
 
 import LoginTable from "@/component/molecules/LoginTable";
 import GeneralPageContainer from "@/component/organisms/GeneralPageContainer";
-import { Welcome } from "@ant-design/x";
-import { Button, Divider } from "antd";
+import { Button, Divider, Typography } from "antd";
+
+const { Title } = Typography;
 
 export default function Page() {
   return (
     <GeneralPageContainer>
       <div className="page-content homepage">
-        <Welcome variant="borderless" title="This is Login-page" />
+        <Title level={2}>登录页面</Title>
         <Divider />
         <LoginTable />
         <Divider />
         <Button size="large" href="/">
-          Back to Homepage
+          返回首页
         </Button>
       </div>
     </GeneralPageContainer>
