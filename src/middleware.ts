@@ -6,6 +6,21 @@ export function middleware(request: NextRequest) {
   const urlObj = new URL(url);
   const pathname = urlObj.pathname;
 
+  // 检查是否是登录页面或API请求
+  if (pathname === "/login" || pathname.startsWith("/api/")) {
+    return NextResponse.next();
+  }
+
+  // 获取token
+  const token = request.cookies.get("token")?.value;
+
+  // 如果没有token且不是公开页面，重定向到登录页
+  if (!token && !["/", "/homepage"].includes(pathname)) {
+    const loginUrl = new URL("/login", urlObj.origin);
+    loginUrl.searchParams.set("redirect", pathname);
+    return NextResponse.redirect(loginUrl);
+  }
+
   const rewrite = (path: string) => {
     const response = NextResponse.rewrite(new URL(path + urlObj.search, url));
     response.headers.delete("X-Envoy-Upstream-Service-Time");

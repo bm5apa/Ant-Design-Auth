@@ -39,9 +39,8 @@ export default function LoginTable() {
       if (response.data.success) {
         message.success("Login successfully！Redirect Now...");
 
-        if (values.remember) {
-          localStorage.setItem("token", response.data.token);
-        }
+        // 设置cookie
+        document.cookie = `token=${response.data.token}; path=/; max-age=86400`; // 24小时过期
 
         setTimeout(() => {
           router.push("/dashboard");
