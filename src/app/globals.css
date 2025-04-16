@@ -1,22 +1,3 @@
-<<<<<<< HEAD
-@import "antd/dist/reset.css";
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-  --max-width: 1100px;
-  --border-radius: 12px;
-  --font-mono: ui-monospace, Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono",
-    "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro",
-    "Fira Mono", "Droid Sans Mono", "Courier New", monospace;
-}
-/* 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-=======
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -24,7 +5,6 @@
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-rgb: 255, 255, 255;
->>>>>>> 013a2ff
 }
 
 body {
@@ -37,10 +17,6 @@ body {
   font-family: "Noto Sans TC", sans-serif;
   display: flex;
   flex-direction: column;
-<<<<<<< HEAD
-  max-width: 100vw;
-  overflow-x: hidden;
-=======
   min-height: 100vh;
   margin: 0;
   padding: 0;
@@ -50,7 +26,6 @@ body {
   display: flex;
   flex-direction: column;
   flex: 1;
->>>>>>> 013a2ff
 }
 
 .line-clamp {
