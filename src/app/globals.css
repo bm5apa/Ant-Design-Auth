@@ -4,7 +4,7 @@
   --background: #ffffff;
   --foreground: #171717;
 }
-
+/* 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -17,10 +17,66 @@
     --background: #0a0a0a;
     --foreground: #ededed;
   }
-}
+} */
 
+html,
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Noto Sans TC", sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+.line-clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+.container-fluid {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  flex-direction: column;
+}
+
+.page-content {
+  min-height: 100vh;
+}
+
+.page-content.homepage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.homepage-title__large-title {
+  font-size: 150px;
+}
+
+.login-table__container {
+  max-width: 500px;
+  width: 100%;
+}
+
+@media (max-width: 1366px) {
+}
+
+@media (max-width: 1024px) {
+}
+
+@media (max-width: 991px) {
+}
+
+@media (max-width: 650px) {
+}
+
+@media (max-width: 390px) {
 }
