@@ -17,23 +17,32 @@ export default function LoginTable() {
   const onFinish: FormProps<FieldType>["onFinish"] = async (values) => {
     try {
       setLoading(true);
+      console.log("Attempting login with:", values);
       const response = await axios.post("/api/login", {
         username: values.username,
         password: values.password,
       });
-
+      console.log("Login response:", response.data);
       if (response.data.success) {
-        message.success("Login successfully！");
+        message.success("Login successful!");
         if (values.remember) {
           localStorage.setItem("token", response.data.token);
         }
         router.push("/dashboard");
       } else {
-        message.error(response.data.message || "Login Failed.");
+        message.error(response.data.message || "Login failed");
       }
-    } catch (error) {
-      message.error("Login Failed. Please contact the manager.");
-      console.error("Login Error", error);
+    } catch (error: any) {
+      console.error("Login error details:", error);
+      if (error.response) {
+        message.error(error.response.data.message || "Login failed");
+      } else if (error.request) {
+        message.error(
+          "No response from server. Please check your network connection."
+        );
+      } else {
+        message.error("Login failed. Please try again later.");
+      }
     } finally {
       setLoading(false);
     }
@@ -42,8 +51,8 @@ export default function LoginTable() {
   const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (
     errorInfo
   ) => {
-    console.log("Failed:", errorInfo);
-    message.error("Please Fill All the Table.");
+    console.log("Validation failed:", errorInfo);
+    message.error("Please fill in all required fields");
   };
 
   return (
@@ -61,7 +70,7 @@ export default function LoginTable() {
         <Form.Item<FieldType>
           label="Username"
           name="username"
-          rules={[{ required: true, message: "Please input the Username!" }]}
+          rules={[{ required: true, message: "Please input your username!" }]}
         >
           <Input />
         </Form.Item>
@@ -69,7 +78,7 @@ export default function LoginTable() {
         <Form.Item<FieldType>
           label="Password"
           name="password"
-          rules={[{ required: true, message: "Please input the Password!" }]}
+          rules={[{ required: true, message: "Please input your password!" }]}
         >
           <Input.Password />
         </Form.Item>
@@ -79,7 +88,7 @@ export default function LoginTable() {
           valuePropName="checked"
           label={null}
         >
-          <Checkbox>Remeber Me</Checkbox>
+          <Checkbox>Remember me</Checkbox>
         </Form.Item>
 
         <Form.Item label={null}>
