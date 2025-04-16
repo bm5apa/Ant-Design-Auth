@@ -1,45 +1,35 @@
-import React, { useEffect, useState } from "react";
-import { Card, Typography, Button, message } from "antd";
+import React, { useEffect } from "react";
+import { Card, Typography, Button, App } from "antd";
+import { getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 
 const { Title, Text } = Typography;
 
 export default function Dashboard() {
-  const [userInfo, setUserInfo] = useState<{ username: string } | null>(null);
   const router = useRouter();
+  const { message } = App.useApp();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = getCookie("token");
     if (!token) {
-      message.error("Please Login in First!");
-      router.push("/login");
-      return;
+      message.error("Please login first");
+      router.replace("/login");
     }
-
-    setUserInfo({
-      username: "admin",
-    });
-  }, [router]);
+  }, [message, router]);
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    message.success("Login Out!");
-    router.push("/login");
+    document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    router.replace("/login");
   };
 
   return (
-    <div className="dashboard-container" style={{ padding: "24px" }}>
+    <div className="dashboard__container">
       <Card>
-        <Title level={2}>Welcome back!</Title>
-        {userInfo && (
-          <div>
-            <Text strong>You are login as:</Text>
-            <Text>{userInfo.username}</Text>
-          </div>
-        )}
-        <div style={{ marginTop: "20px" }}>
-          <Button type="primary" danger onClick={handleLogout}>
-            Login Out
+        <Title level={2}>Welcome to Dashboard</Title>
+        <Text>You are now logged in.</Text>
+        <div style={{ marginTop: 20 }}>
+          <Button type="primary" onClick={handleLogout}>
+            Logout
           </Button>
         </div>
       </Card>
