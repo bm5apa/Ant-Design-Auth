@@ -12,7 +12,7 @@ export function middleware(request: NextRequest) {
 
   const token = request.cookies.get("token")?.value;
 
-  if (!token && !["/", "/homepage"].includes(pathname)) {
+  if (!token && !["/", "/homepage", "/sign-up"].includes(pathname)) {
     const loginUrl = new URL("/login", urlObj.origin);
     loginUrl.searchParams.set("redirect", "login-first");
     return NextResponse.redirect(loginUrl);

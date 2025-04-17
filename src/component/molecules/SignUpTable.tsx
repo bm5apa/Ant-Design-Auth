@@ -2,14 +2,13 @@
 
 import React, { useState } from "react";
 import type { FormProps } from "antd";
-import { Button, Checkbox, Form, Input, message, Spin } from "antd";
+import { Button, Form, Input, message, Spin } from "antd";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 
 type FieldType = {
   username?: string;
   password?: string;
-  remember?: string;
 };
 
 type AxiosError = {
@@ -22,42 +21,42 @@ type AxiosError = {
   message?: string;
 };
 
-export default function LoginTable() {
+export default function SignUpTable() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const onFinish: FormProps<FieldType>["onFinish"] = async (values) => {
     try {
       setLoading(true);
-      console.log("Attempting login with:", values);
-      const response = await axios.post("/api/login", {
+      console.log("Attempting sign-up with:", values);
+      const response = await axios.post("/api/signup", {
         username: values.username,
         password: values.password,
       });
-      console.log("Login response:", response.data);
+      console.log("Sign-up response:", response.data);
       if (response.data.success) {
-        message.success("Login successfully! Redirect Now...");
+        message.success("Sign-up successful! Redirecting...");
         document.cookie = `token=${response.data.token}; path=/; max-age=86400`;
         setTimeout(() => {
-          router.push("/dashboard");
+          router.push("/login");
         }, 1500);
       } else {
-        message.error(response.data.message || "Login Failed.");
+        message.error(response.data.message || "Sign-up failed.");
       }
     } catch (error: unknown) {
       const axiosError = error as AxiosError;
-      console.error("Login error details:", error);
+      console.error("Sign-up error details:", error);
       if (axiosError.response) {
         message.error(
           axiosError.response.data?.message ||
-            "Login Failed, Please Check the Username and Password."
+            "Sign-up failed. Please check your username and password."
         );
       } else if (axiosError.request) {
         message.error(
-          "Unable to Connect to the Server, Please Check the Internet Connection."
+          "Unable to connect to the server. Please check your internet connection."
         );
       } else {
-        message.error("Login Failed, Please Try Again Later.");
+        message.error("Sign-up failed. Please try again later.");
       }
     } finally {
       setLoading(false);
@@ -68,18 +67,17 @@ export default function LoginTable() {
     errorInfo
   ) => {
     console.log("Validation failed:", errorInfo);
-    message.warning("Please Fill In All the Required Section.");
+    message.warning("Please fill in all required fields.");
   };
 
   return (
-    <div className="login-table__container">
-      <Spin spinning={loading} tip="Login Now...">
+    <div className="signup-table__container">
+      <Spin spinning={loading} tip="Signing up...">
         <Form
-          name="basic"
+          name="signup"
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 16 }}
           style={{ maxWidth: 600 }}
-          initialValues={{ remember: false }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           autoComplete="off"
@@ -87,30 +85,21 @@ export default function LoginTable() {
           <Form.Item<FieldType>
             label="Username"
             name="username"
-            rules={[{ required: true, message: "Please Input Your Username!" }]}
+            rules={[{ required: true, message: "Please input your username!" }]}
           >
-            <Input placeholder="eg: admin" />
+            <Input placeholder="e.g., johndoe" />
           </Form.Item>
 
           <Form.Item<FieldType>
             label="Password"
             name="password"
-            rules={[{ required: true, message: "Please Input Your Password!" }]}
+            rules={[{ required: true, message: "Please input your password!" }]}
           >
-            <Input.Password placeholder="eg: admin123" />
+            <Input.Password placeholder="e.g., password123" />
           </Form.Item>
-          <Form.Item<FieldType>
-            name="remember"
-            valuePropName="checked"
-            label={null}
-          >
-            <Checkbox>Remember Me</Checkbox>
-          </Form.Item>
+
           <Form.Item label={null}>
             <Button type="primary" htmlType="submit">
-              Login
-            </Button>
-            <Button type="link" htmlType="button" href="/sign-up">
               Sign Up
             </Button>
           </Form.Item>

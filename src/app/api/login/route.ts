@@ -1,15 +1,5 @@
 import { NextResponse } from "next/server";
-
-const users = [
-  {
-    username: "admin",
-    password: "admin123",
-  },
-  {
-    username: "user",
-    password: "user123",
-  },
-];
+import { users } from "../data/data";
 
 export async function POST(request: Request) {
   try {
