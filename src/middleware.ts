@@ -35,6 +35,7 @@ export function middleware(request: NextRequest) {
     .split("/")
     .filter(Boolean)
     .map((segment) => decodeURIComponent(segment));
+
   if (
     segments.length > 2 &&
     segments[1] === "article" &&
