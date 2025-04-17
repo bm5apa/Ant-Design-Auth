@@ -29,21 +29,15 @@ export default function LoginTable() {
   const onFinish: FormProps<FieldType>["onFinish"] = async (values) => {
     try {
       setLoading(true);
-
       console.log("Attempting login with:", values);
       const response = await axios.post("/api/login", {
         username: values.username,
         password: values.password,
       });
-
       console.log("Login response:", response.data);
-
       if (response.data.success) {
-        message.success("Login successfully！Redirect Now...");
-
-        // 设置cookie
-        document.cookie = `token=${response.data.token}; path=/; max-age=86400`; // 24小时过期
-
+        message.success("Login successfully! Redirect Now...");
+        document.cookie = `token=${response.data.token}; path=/; max-age=86400`;
         setTimeout(() => {
           router.push("/dashboard");
         }, 1500);
@@ -53,7 +47,6 @@ export default function LoginTable() {
     } catch (error: unknown) {
       const axiosError = error as AxiosError;
       console.error("Login error details:", error);
-
       if (axiosError.response) {
         message.error(
           axiosError.response.data?.message ||
@@ -86,7 +79,7 @@ export default function LoginTable() {
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 16 }}
           style={{ maxWidth: 600 }}
-          initialValues={{ remember: true }}
+          initialValues={{ remember: false }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           autoComplete="off"
@@ -106,7 +99,6 @@ export default function LoginTable() {
           >
             <Input.Password placeholder="eg: admin123" />
           </Form.Item>
-
           <Form.Item<FieldType>
             name="remember"
             valuePropName="checked"
@@ -114,9 +106,8 @@ export default function LoginTable() {
           >
             <Checkbox>Remember Me</Checkbox>
           </Form.Item>
-
           <Form.Item label={null}>
-            <Button type="primary" htmlType="submit" block>
+            <Button type="primary" htmlType="submit">
               Login
             </Button>
           </Form.Item>

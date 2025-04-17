@@ -17,7 +17,7 @@ export default function Page() {
 
   useEffect(() => {
     if (showLoginFirst) {
-      message.error("Please login first");
+      message.error("Please login first!");
       const timer = setTimeout(() => {
         router.replace("/login");
       }, 1000);
