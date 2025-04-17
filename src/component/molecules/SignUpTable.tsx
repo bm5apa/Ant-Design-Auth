@@ -23,7 +23,29 @@ type AxiosError = {
 
 export default function SignUpTable() {
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const router = useRouter();
+
+  const validateInput = (field: string) => (_: any, value: string) => {
+    if (!value) {
+      setErrors((prev) => ({ ...prev, [field]: "Required!" }));
+      return Promise.reject(new Error("Required!"));
+    }
+    const alphabetCount = (value.match(/[a-zA-Z]/g) || []).length;
+    const numberCount = (value.match(/[0-9]/g) || []).length;
+
+    if (alphabetCount < 4 || numberCount < 4) {
+      const errorMsg = "Must contain at least 4 letters and 4 numbers!";
+      setErrors((prev) => ({ ...prev, [field]: errorMsg }));
+      return Promise.reject(new Error(errorMsg));
+    }
+    setErrors((prev) => {
+      const newErrors = { ...prev };
+      delete newErrors[field];
+      return newErrors;
+    });
+    return Promise.resolve();
+  };
 
   const onFinish: FormProps<FieldType>["onFinish"] = async (values) => {
     try {
@@ -67,7 +89,7 @@ export default function SignUpTable() {
     errorInfo
   ) => {
     console.log("Validation failed:", errorInfo);
-    message.warning("Please fill in all required fields.");
+    message.warning("Please fill in all required fields correctly.");
   };
 
   return (
@@ -85,19 +107,27 @@ export default function SignUpTable() {
           <Form.Item<FieldType>
             label="Username"
             name="username"
-            rules={[{ required: true, message: "Please input your username!" }]}
+            validateStatus={errors.username ? "warning" : undefined}
+            help={errors.username}
+            rules={[
+              { required: true, message: "Please input your username!" },
+              { validator: validateInput("username") },
+            ]}
           >
-            <Input placeholder="e.g., johndoe" />
+            <Input placeholder="e.g., aaaa1111" />
           </Form.Item>
-
           <Form.Item<FieldType>
             label="Password"
             name="password"
-            rules={[{ required: true, message: "Please input your password!" }]}
+            validateStatus={errors.password ? "warning" : undefined}
+            help={errors.password}
+            rules={[
+              { required: true, message: "Please input your password!" },
+              { validator: validateInput("password") },
+            ]}
           >
-            <Input.Password placeholder="e.g., password123" />
+            <Input.Password placeholder="e.g., aaaa1111" />
           </Form.Item>
-
           <Form.Item label={null}>
             <Button type="primary" htmlType="submit">
               Sign Up
