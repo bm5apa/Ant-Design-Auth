@@ -57,28 +57,28 @@ export default function SignUpTable() {
       });
       console.log("Sign-up response:", response.data);
       if (response.data.success) {
-        message.success("Sign-up successful! Redirecting...");
+        message.success("Sign up successful! Redirecting...");
         document.cookie = `token=${response.data.token}; path=/; max-age=86400`;
         setTimeout(() => {
           router.push("/login");
         }, 1500);
       } else {
-        message.error(response.data.message || "Sign-up failed.");
+        message.error(response.data.message || "Sign up failed.");
       }
     } catch (error: unknown) {
       const axiosError = error as AxiosError;
-      console.error("Sign-up error details:", error);
+      console.error("Sign up error details:", error);
       if (axiosError.response) {
         message.error(
           axiosError.response.data?.message ||
-            "Sign-up failed. Please check your username and password."
+            "Sign up failed. Please check your username and password."
         );
       } else if (axiosError.request) {
         message.error(
           "Unable to connect to the server. Please check your internet connection."
         );
       } else {
-        message.error("Sign-up failed. Please try again later.");
+        message.error("Sign up failed. Please try again later.");
       }
     } finally {
       setLoading(false);
