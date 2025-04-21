@@ -9,7 +9,7 @@ export default function InsideContent() {
       <Title level={2}>Inside Content</Title>
       <div style={{ marginTop: 20 }}>
         <Button size="large" href="/dashboard">
-          Back to the User Dashboard
+          Back to the Dashboard
         </Button>
       </div>
     </div>

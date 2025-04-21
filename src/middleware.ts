@@ -1,5 +1,6 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+import { PAGES_BEFORE_LOGIN } from "./utils/const";
 
 export function middleware(request: NextRequest) {
   const url = request?.url || "";
@@ -12,7 +13,7 @@ export function middleware(request: NextRequest) {
 
   const token = request.cookies.get("token")?.value;
 
-  if (!token && !["/", "/homepage", "/sign-up"].includes(pathname)) {
+  if (!token && !PAGES_BEFORE_LOGIN.includes(pathname)) {
     const loginUrl = new URL("/login", urlObj.origin);
     loginUrl.searchParams.set("redirect", "login-first");
     return NextResponse.redirect(loginUrl);
