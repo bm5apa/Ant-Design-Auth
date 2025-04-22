@@ -1,6 +1,7 @@
 "use client";
 
 import LoginTable from "@/component/molecules/LoginTable";
+import ResetTable from "@/component/molecules/ResetTable";
 import GeneralPageContainer from "@/component/organisms/GeneralPageContainer";
 import { Button, Divider, message, Typography } from "antd";
 import { useSearchParams } from "next/navigation";
@@ -20,6 +21,7 @@ export default function Page() {
       <>
         <Title level={2}>Reset Your Password</Title>
         <Divider />
+        <ResetTable />
         <Divider />
         <Button size="large" href="/login">
           Back to Login Page

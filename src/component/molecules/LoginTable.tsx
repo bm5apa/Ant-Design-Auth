@@ -6,7 +6,7 @@ import { Button, Checkbox, Form, Input, message, Spin } from "antd";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 
-type FieldType = {
+export type FieldType = {
   username?: string;
   password?: string;
   remember?: string;

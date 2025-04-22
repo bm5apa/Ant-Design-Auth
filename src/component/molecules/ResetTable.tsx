@@ -1,57 +1,22 @@
-"use client";
+"use clinet";
 
 import React, { useState } from "react";
-import type { FormProps } from "antd";
-import { Button, Form, Input, message, Spin } from "antd";
+import { Button, Form, FormProps, Input, Spin, message } from "antd";
+import { FieldType } from "./LoginTable";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { AxiosError } from "./SignUpTable";
 
-type FieldType = {
-  username?: string;
-  password?: string;
-};
-
-export type AxiosError = {
-  response?: {
-    data?: {
-      message?: string;
-    };
-  };
-  request?: XMLHttpRequest;
-  message?: string;
-};
-
-export default function SignUpTable() {
-  const [loading, setLoading] = useState(false);
+export default function ResetTable() {
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
-
-  const validateInput = (field: string) => (_: any, value: string) => {
-    if (!value) {
-      setErrors((prev) => ({ ...prev, [field]: "Required!" }));
-      return Promise.reject(new Error("Required!"));
-    }
-    const alphabetCount = (value.match(/[a-zA-Z]/g) || []).length;
-    const numberCount = (value.match(/[0-9]/g) || []).length;
-
-    if (alphabetCount < 4 || numberCount < 4) {
-      const errorMsg = "Must contain at least 4 letters and 4 numbers!";
-      setErrors((prev) => ({ ...prev, [field]: errorMsg }));
-      return Promise.reject(new Error(errorMsg));
-    }
-    setErrors((prev) => {
-      const newErrors = { ...prev };
-      delete newErrors[field];
-      return newErrors;
-    });
-    return Promise.resolve();
-  };
 
   const onFinish: FormProps<FieldType>["onFinish"] = async (values) => {
     try {
       setLoading(true);
-      console.log("Attempting sign-up with:", values);
-      const response = await axios.post("/api/signup", {
+      console.log("Attempting Reset with:", values);
+      const response = await axios.post("/api/reset", {
         username: values.username,
         password: values.password,
       });
@@ -85,23 +50,37 @@ export default function SignUpTable() {
     }
   };
 
-  const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (
-    errorInfo
-  ) => {
-    console.log("Validation failed:", errorInfo);
-    message.warning("Please fill in all required fields correctly.");
+  const validateInput = (field: string) => (_: any, value: string) => {
+    if (!value) {
+      setErrors((prev) => ({ ...prev, [field]: "Required!" }));
+      return Promise.reject(new Error("Required!"));
+    }
+    const alphabetCount = (value.match(/[a-zA-Z]/g) || []).length;
+    const numberCount = (value.match(/[0-9]/g) || []).length;
+
+    if (alphabetCount < 4 || numberCount < 4) {
+      const errorMsg = "Must contain at least 4 letters and 4 numbers!";
+      setErrors((prev) => ({ ...prev, [field]: errorMsg }));
+      return Promise.reject(new Error(errorMsg));
+    }
+    setErrors((prev) => {
+      const newErrors = { ...prev };
+      delete newErrors[field];
+      return newErrors;
+    });
+    return Promise.resolve();
   };
 
   return (
     <div className="signup-table__container">
-      <Spin spinning={loading} tip="Signing up...">
+      <Spin spinning={loading} tip="Reset Password Now...">
         <Form
           name="signup"
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 16 }}
           style={{ maxWidth: 600 }}
           onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
+          // onFinishFailed={onFinishFailed}
           autoComplete="off"
         >
           <Form.Item<FieldType>
