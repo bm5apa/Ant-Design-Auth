@@ -24,7 +24,7 @@ export default function Dashboard() {
       </Card>
       <div style={{ marginTop: 20 }}>
         <Button size="large" href="/content">
-          Enter the Inside Content
+          Click Here For the Inside Content
         </Button>
       </div>
     </div>

@@ -34,3 +34,30 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+<!-- # AntAuth
+
+A modern authentication system built with **React**, **Ant Design**, and a **fake backend** (Next.js API routes). This project demonstrates a login and signup system with features like password strength checking, dark mode, and mock password recovery.
+
+## Features
+
+- 🔒 Login and signup with form validation
+- 📊 Password strength indicator
+- 🌙 Dark mode toggle
+- 📱 Responsive design with Ant Design
+- 🔑 Mock password recovery (simulated due to fake backend)
+- 🌍 Multi-language support
+
+## Limitations
+
+- Uses a fake backend (static `users` array) for demonstration.
+- Features like password-recovery and 2FA are simulated (e.g., codes displayed in UI) due to the absence of email/SMS services.
+- Social login is not implemented, as it requires third-party OAuth providers.
+
+## Future Enhancements
+
+With a real backend (e.g., Firebase, Node.js), I would:
+
+- Implement email verification and password recovery using Nodemailer.
+- Add social login with Google/Facebook OAuth.
+- Enable 2FA with SMS or authenticator apps. -->
