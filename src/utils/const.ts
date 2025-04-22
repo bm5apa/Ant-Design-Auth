@@ -1,1 +1,1 @@
-export const PAGES_BEFORE_LOGIN = ["/", "homepage", "sign-up"];
+export const PAGES_BEFORE_LOGIN = ["/", "homepage", "sign-up", "reset"];

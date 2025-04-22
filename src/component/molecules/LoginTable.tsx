@@ -114,6 +114,11 @@ export default function LoginTable() {
               Sign Up
             </Button>
           </Form.Item>
+          <Form.Item label={null}>
+            <Button type="link" htmlType="button" href="/reset">
+              Forget Password
+            </Button>
+          </Form.Item>
         </Form>
       </Spin>
     </div>
