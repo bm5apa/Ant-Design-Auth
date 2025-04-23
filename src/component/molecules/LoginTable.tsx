@@ -89,7 +89,7 @@ export default function LoginTable() {
             name="username"
             rules={[{ required: true, message: "Please Input Your Username!" }]}
           >
-            <Input placeholder="eg: admin" />
+            <Input placeholder="eg: admin1234" />
           </Form.Item>
 
           <Form.Item<FieldType>
@@ -97,7 +97,7 @@ export default function LoginTable() {
             name="password"
             rules={[{ required: true, message: "Please Input Your Password!" }]}
           >
-            <Input.Password placeholder="eg: admin123" />
+            <Input.Password placeholder="eg: admin1111" />
           </Form.Item>
           <Form.Item<FieldType>
             name="remember"

@@ -1,11 +1,15 @@
-"use clinet";
+"use client";
 
 import React, { useState } from "react";
 import { Button, Form, FormProps, Input, Spin, message } from "antd";
-import { FieldType } from "./LoginTable";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { AxiosError } from "./SignUpTable";
+
+interface FieldType {
+  username: string;
+  newPassword: string;
+  resetCode: string;
+}
 
 export default function ResetTable() {
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
@@ -15,36 +19,27 @@ export default function ResetTable() {
   const onFinish: FormProps<FieldType>["onFinish"] = async (values) => {
     try {
       setLoading(true);
-      console.log("Attempting Reset with:", values);
+      console.log("Attempting Password Reset with:", values);
       const response = await axios.post("/api/reset", {
         username: values.username,
-        password: values.password,
+        newPassword: values.newPassword,
+        resetCode: values.resetCode,
       });
-      console.log("Sign-up response:", response.data);
+      console.log("Reset response:", response.data);
       if (response.data.success) {
-        message.success("Sign up successful! Redirecting...");
-        document.cookie = `token=${response.data.token}; path=/; max-age=86400`;
+        message.success("Password reset successful! Redirecting to login...");
         setTimeout(() => {
           router.push("/login");
         }, 1500);
       } else {
-        message.error(response.data.message || "Sign up failed.");
+        message.error(response.data.message || "Password reset failed.");
       }
-    } catch (error: unknown) {
-      const axiosError = error as AxiosError;
-      console.error("Sign up error details:", error);
-      if (axiosError.response) {
-        message.error(
-          axiosError.response.data?.message ||
-            "Sign up failed. Please check your username and password."
-        );
-      } else if (axiosError.request) {
-        message.error(
-          "Unable to connect to the server. Please check your internet connection."
-        );
-      } else {
-        message.error("Sign up failed. Please try again later.");
-      }
+    } catch (error: any) {
+      console.error("Reset error details:", error);
+      const errorMessage =
+        error.response?.data?.message ||
+        "Password reset failed. Please check your inputs.";
+      message.error(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -55,11 +50,17 @@ export default function ResetTable() {
       setErrors((prev) => ({ ...prev, [field]: "Required!" }));
       return Promise.reject(new Error("Required!"));
     }
-    const alphabetCount = (value.match(/[a-zA-Z]/g) || []).length;
-    const numberCount = (value.match(/[0-9]/g) || []).length;
-
-    if (alphabetCount < 4 || numberCount < 4) {
-      const errorMsg = "Must contain at least 4 letters and 4 numbers!";
+    if (field === "newPassword") {
+      const alphabetCount = (value.match(/[a-zA-Z]/g) || []).length;
+      const numberCount = (value.match(/[0-9]/g) || []).length;
+      if (alphabetCount < 4 || numberCount < 4) {
+        const errorMsg = "Must contain at least 4 letters and 4 numbers!";
+        setErrors((prev) => ({ ...prev, [field]: errorMsg }));
+        return Promise.reject(new Error(errorMsg));
+      }
+    }
+    if (field === "resetCode" && value.length !== 6) {
+      const errorMsg = "Reset code must be 6 characters!";
       setErrors((prev) => ({ ...prev, [field]: errorMsg }));
       return Promise.reject(new Error(errorMsg));
     }
@@ -71,16 +72,23 @@ export default function ResetTable() {
     return Promise.resolve();
   };
 
+  const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (
+    errorInfo
+  ) => {
+    console.log("Validation failed:", errorInfo);
+    message.warning("Please fill in all required fields correctly.");
+  };
+
   return (
-    <div className="signup-table__container">
-      <Spin spinning={loading} tip="Reset Password Now...">
+    <div className="reset-table__container">
+      <Spin spinning={loading} tip="Resetting Password...">
         <Form
-          name="signup"
+          name="reset-password"
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 16 }}
           style={{ maxWidth: 600 }}
           onFinish={onFinish}
-          // onFinishFailed={onFinishFailed}
+          onFinishFailed={onFinishFailed}
           autoComplete="off"
         >
           <Form.Item<FieldType>
@@ -93,23 +101,35 @@ export default function ResetTable() {
               { validator: validateInput("username") },
             ]}
           >
-            <Input placeholder="e.g., aaaa1111" />
+            <Input placeholder="e.g., user1234" />
           </Form.Item>
           <Form.Item<FieldType>
-            label="Password"
-            name="password"
-            validateStatus={errors.password ? "warning" : undefined}
-            help={errors.password}
+            label="Reset Code"
+            name="resetCode"
+            validateStatus={errors.resetCode ? "warning" : undefined}
+            help={errors.resetCode}
             rules={[
-              { required: true, message: "Please input your password!" },
-              { validator: validateInput("password") },
+              { required: true, message: "Please input your reset code!" },
+              { validator: validateInput("resetCode") },
             ]}
           >
-            <Input.Password placeholder="e.g., aaaa1111" />
+            <Input placeholder="e.g., ABC123" />
           </Form.Item>
-          <Form.Item label={null}>
+          <Form.Item<FieldType>
+            label="New Password"
+            name="newPassword"
+            validateStatus={errors.newPassword ? "warning" : undefined}
+            help={errors.newPassword}
+            rules={[
+              { required: true, message: "Please input your new password!" },
+              { validator: validateInput("newPassword") },
+            ]}
+          >
+            <Input.Password placeholder="e.g., abcd1234" />
+          </Form.Item>
+          <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
             <Button type="primary" htmlType="submit">
-              Sign Up
+              Reset Password
             </Button>
           </Form.Item>
         </Form>

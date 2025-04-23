@@ -1,24 +1,13 @@
 import { NextResponse } from "next/server";
 import { users } from "../data/data";
+import bcrypt from "bcrypt";
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
     const { username, password } = body;
-    const user = users.find(
-      (u) => u.username === username && u.password === password
-    );
-    if (user) {
-      const token = Buffer.from(`${username}:${Date.now()}`).toString("base64");
-      return NextResponse.json({
-        success: true,
-        message: "Login successful",
-        token,
-        user: {
-          username: user.username,
-        },
-      });
-    } else {
+    const user = users.find((u) => u.username === username);
+    if (!user || !(await bcrypt.compare(password, user.password))) {
       return NextResponse.json(
         {
           success: false,
@@ -27,6 +16,15 @@ export async function POST(request: Request) {
         { status: 401 }
       );
     }
+    const token = Buffer.from(`${username}:${Date.now()}`).toString("base64");
+    return NextResponse.json({
+      success: true,
+      message: "Login successful",
+      token,
+      user: {
+        username: user.username,
+      },
+    });
   } catch (error) {
     console.error("Login error:", error);
     return NextResponse.json(
