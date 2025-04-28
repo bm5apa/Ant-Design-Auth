@@ -81,33 +81,34 @@ export default function SideMenu() {
   }, []);
 
   return (
-    <Menu
-      onClick={onClick}
-      style={{ width: 300 }}
-      selectedKeys={stateSelectedKeys}
-      openKeys={stateOpenKeys}
-      onOpenChange={onOpenChange}
-      mode="inline"
-      items={items}
-    />
+    <div className="side-menu__container">
+      <Menu
+        onClick={onClick}
+        style={{ width: 300 }}
+        selectedKeys={stateSelectedKeys}
+        openKeys={stateOpenKeys}
+        onOpenChange={onOpenChange}
+        mode="inline"
+        items={items}
+      />
+    </div>
   );
 }
 
 const items: MenuItem[] = [
   {
     key: "sub1",
-    label: "Side Menu",
+    label: "Basic Menu",
     icon: <BulbOutlined />,
     children: [
       {
         key: "g1",
-        label: "Basic Page",
         type: "group",
         children: [
           { key: "1", label: <a href="/">Homepage</a> },
           { key: "2", label: <a href="/login">Login</a> },
           { key: "3", label: <a href="/sign-up">Sign Up</a> },
-          { key: "4", label: <a href="/reset">Reset Password</a> },
+          { key: "4", label: <a href="/reset">Forget Password</a> },
         ],
       },
     ],

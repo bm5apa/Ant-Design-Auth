@@ -46,7 +46,6 @@ A modern authentication system built with **React**, **Ant Design**, and a **fak
 - 🌙 Dark mode toggle
 - 📱 Responsive design with Ant Design
 - 🔑 Mock password recovery (simulated due to fake backend)
-- 🌍 Multi-language support
 
 ## Limitations
 
