@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { BulbOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Menu } from "antd";
+import { KEY_MAP_TO_PATH } from "@/utils/const";
 
 type MenuItem = Required<MenuProps>["items"][number];
 
@@ -13,9 +14,30 @@ interface LevelKeysProps {
 }
 
 export default function SideMenu() {
+  const getValidKeys = (items: MenuItem[]): string[] => {
+    const keys: string[] = [];
+    const extractKeys = (item: MenuItem) => {
+      if (
+        item &&
+        "key" in item &&
+        !("children" in item || item.type === "group")
+      ) {
+        keys.push(item.key as string);
+      }
+      if (item && "children" in item && item.children) {
+        item.children.forEach(extractKeys);
+      }
+    };
+    items.forEach(extractKeys);
+    return keys;
+  };
+  const validKeys = getValidKeys(items);
+
   const getInitialSelectedKey = () => {
     const currentPath = window.location.pathname;
-    return [pathToKeyMap[currentPath] || "1"];
+    const mapItem = KEY_MAP_TO_PATH.find((item) => item.path === currentPath);
+    const key = mapItem ? mapItem.key : "1";
+    return validKeys.includes(key) ? [key] : ["1"];
   };
 
   const [stateOpenKeys, setStateOpenKeys] = useState(["sub1", "sub2"]);
@@ -24,7 +46,13 @@ export default function SideMenu() {
   );
 
   const onClick: MenuProps["onClick"] = (e) => {
-    setStateSelectedKeys([e.key]);
+    const key = e.key;
+    if (validKeys.includes(key)) {
+      setStateSelectedKeys([key]);
+      console.log("Clicked key:", key, "New selectedKeys:", [key]);
+    } else {
+      console.warn("Invalid key clicked:", key);
+    }
   };
 
   const onOpenChange: MenuProps["onOpenChange"] = (openKeys) => {
@@ -42,7 +70,9 @@ export default function SideMenu() {
 
   useEffect(() => {
     const handlePathChange = () => {
-      setStateSelectedKeys(getInitialSelectedKey());
+      const newKeys = getInitialSelectedKey();
+      setStateSelectedKeys(newKeys);
+      console.log("Path changed, new selectedKeys:", newKeys);
     };
     window.addEventListener("popstate", handlePathChange);
     return () => {
@@ -102,15 +132,6 @@ const items: MenuItem[] = [
     ],
   },
 ];
-
-const pathToKeyMap: Record<string, string> = {
-  "/": "1",
-  "/login": "2",
-  "/sign-up": "3",
-  "/reset": "4",
-  "/dashboard": "5",
-  "/content": "6",
-};
 
 const getLevelKeys = (items1: LevelKeysProps[]) => {
   const key: Record<string, number> = {};
