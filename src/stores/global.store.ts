@@ -1,4 +1,3 @@
-import { TABLET_SIZE } from "@/utils/theme";
 import { create } from "zustand";
 
 export interface IScreenSize {

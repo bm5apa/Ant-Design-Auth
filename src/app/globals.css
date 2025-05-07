@@ -239,6 +239,13 @@ a {
   border-color: var(--dark-mode-switch-dark-background);
 }
 
+.general-page-container.container-fluid.dark
+  .ant-checkbox-wrapper:not(.ant-checkbox-wrapper-disabled):hover
+  .ant-checkbox-checked:not(.ant-checkbox-disabled)
+  .ant-checkbox-inner {
+  background-color: var(--dark-mode-switch-dark-background);
+}
+
 .general-page-container.container-fluid.dark .ant-card {
   background-color: var(--dark-mode-main-background);
 }
