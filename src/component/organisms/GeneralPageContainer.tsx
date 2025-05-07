@@ -3,6 +3,7 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import SideMenu from "../molecules/SideMenu";
 import { MenuTheme } from "antd";
+import Initializer from "../atoms/Initializer";
 
 type IGeneralPageContainer = {
   children?: ReactElement;
@@ -38,6 +39,7 @@ export default function GeneralPageContainer({
 
   return (
     <div className={`general-page-container container-fluid ${menuTheme}`}>
+      <Initializer />
       <SideMenu menuTheme={menuTheme} changeTheme={changeTheme} />
       <div className="page-content">{children}</div>
     </div>

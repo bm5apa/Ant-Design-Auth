@@ -22,6 +22,13 @@ type ISideMenu = {
 export default function SideMenu({ menuTheme, changeTheme }: ISideMenu) {
   const pathname = usePathname();
 
+  const [collapsed, setCollapsed] = useState(false);
+  const [stateOpenKeys, setStateOpenKeys] = useState(["sub1", "sub2"]);
+
+  const toggleCollapsed = () => {
+    setCollapsed(!collapsed);
+  };
+
   const getValidKeys = (items: MenuItem[]): string[] => {
     const keys: string[] = [];
     const extractKeys = (item: MenuItem) => {
@@ -48,7 +55,6 @@ export default function SideMenu({ menuTheme, changeTheme }: ISideMenu) {
     return validKeys.includes(key) ? [key] : ["1"];
   };
 
-  const [stateOpenKeys, setStateOpenKeys] = useState(["sub1", "sub2"]);
   const [stateSelectedKeys, setStateSelectedKeys] = useState<string[]>(
     getSelectedKey()
   );
