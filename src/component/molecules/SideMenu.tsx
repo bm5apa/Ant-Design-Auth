@@ -22,6 +22,7 @@ type ISideMenu = {
 
 export default function SideMenu({ menuTheme, changeThemeAction }: ISideMenu) {
   const { width } = useGlobalStore((state) => state.screenSize);
+  const isTabletOrMobile = width <= 800;
   const pathname = usePathname();
 
   const [stateOpenKeys, setStateOpenKeys] = useState(["sub1", "sub2"]);
@@ -94,14 +95,14 @@ export default function SideMenu({ menuTheme, changeThemeAction }: ISideMenu) {
   }, [pathname]);
 
   return (
-    <div className="side-menu__container">
+    <div className={`side-menu__container ${menuTheme}`}>
       <Menu
         onClick={onClick}
-        style={{ width: width <= 800 ? 75 : 250 }}
+        style={{ width: isTabletOrMobile ? 75 : 200 }}
         selectedKeys={stateSelectedKeys}
         openKeys={stateOpenKeys}
         onOpenChange={onOpenChange}
-        mode={width <= 800 ? "vertical" : "inline"}
+        mode={isTabletOrMobile ? "vertical" : "inline"}
         items={items}
       />
       <div className="side-menu__switch">
