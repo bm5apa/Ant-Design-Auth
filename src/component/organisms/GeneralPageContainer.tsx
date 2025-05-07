@@ -3,7 +3,6 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import SideMenu from "../molecules/SideMenu";
 import { MenuTheme } from "antd";
-// import Initializer from "../atoms/Initializer";
 
 type IGeneralPageContainer = {
   children?: ReactElement;
@@ -12,29 +11,35 @@ type IGeneralPageContainer = {
 export default function GeneralPageContainer({
   children,
 }: IGeneralPageContainer) {
-  const [menuTheme, setMenuTheme] = useState<MenuTheme>(() => {
-    if (typeof window !== "undefined") {
-      const savedTheme = localStorage.getItem("menuTheme");
-      return (savedTheme as MenuTheme) || "light";
-    }
-    return "light";
-  });
+  const [menuTheme, setMenuTheme] = useState<MenuTheme>("light");
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    localStorage.setItem("menuTheme", menuTheme);
-  }, [menuTheme]);
+    const savedTheme = localStorage.getItem("menuTheme");
+    if (savedTheme) {
+      setMenuTheme(savedTheme as MenuTheme);
+    }
+    setIsMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (isMounted) {
+      localStorage.setItem("menuTheme", menuTheme);
+    }
+  }, [menuTheme, isMounted]);
 
   const changeTheme = (value: boolean) => {
     setMenuTheme(value ? "dark" : "light");
   };
 
+  if (!isMounted) {
+    return null;
+  }
+
   return (
     <div className={`general-page-container container-fluid ${menuTheme}`}>
       <SideMenu menuTheme={menuTheme} changeTheme={changeTheme} />
-      <div className="page-content">
-        {/* <Initializer /> */}
-        {children}
-      </div>
+      <div className="page-content">{children}</div>
     </div>
   );
 }
