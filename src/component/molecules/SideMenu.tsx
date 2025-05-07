@@ -25,7 +25,13 @@ export default function SideMenu({ menuTheme, changeThemeAction }: ISideMenu) {
   const isTabletOrMobile = width <= 800;
   const pathname = usePathname();
 
-  const [stateOpenKeys, setStateOpenKeys] = useState(["sub1", "sub2"]);
+  const [stateOpenKeys, setStateOpenKeys] = useState<string[]>(() => {
+    if (typeof window !== "undefined") {
+      const savedKeys = localStorage.getItem("menuOpenKeys");
+      return savedKeys ? JSON.parse(savedKeys) : [];
+    }
+    return [];
+  });
 
   const getValidKeys = (items: MenuItem[]): string[] => {
     const keys: string[] = [];
@@ -68,24 +74,18 @@ export default function SideMenu({ menuTheme, changeThemeAction }: ISideMenu) {
   };
 
   const onOpenChange: MenuProps["onOpenChange"] = (openKeys) => {
-    const currentOpenKey = openKeys.find(
-      (key) => stateOpenKeys.indexOf(key) === -1
+    const validSubmenuKeys = ["sub1", "sub2"];
+    const newOpenKeys = openKeys.filter((key) =>
+      validSubmenuKeys.includes(key)
     );
-    if (currentOpenKey !== undefined) {
-      setStateOpenKeys(
-        openKeys.filter((key) => levelKeys[key] <= levelKeys[currentOpenKey])
-      );
-    } else {
-      setStateOpenKeys(openKeys);
-    }
+    setStateOpenKeys(newOpenKeys);
+    localStorage.setItem("menuOpenKeys", JSON.stringify(newOpenKeys));
+    console.log("onOpenChange triggered, newOpenKeys:", newOpenKeys);
   };
 
   useEffect(() => {
     const newKeys = getSelectedKey();
     setStateSelectedKeys(newKeys);
-    if (pathname === "/dashboard" && !stateOpenKeys.includes("sub2")) {
-      setStateOpenKeys((prev) => [...new Set([...prev, "sub2"])]);
-    }
     console.log(
       "Path changed, new selectedKeys:",
       newKeys,
