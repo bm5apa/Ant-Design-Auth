@@ -29,7 +29,7 @@ export default function GeneralPageContainer({
     }
   }, [menuTheme, isMounted]);
 
-  const changeTheme = (value: boolean) => {
+  const changeThemeAction = (value: boolean) => {
     setMenuTheme(value ? "dark" : "light");
   };
 
@@ -40,7 +40,7 @@ export default function GeneralPageContainer({
   return (
     <div className={`general-page-container container-fluid ${menuTheme}`}>
       <Initializer />
-      <SideMenu menuTheme={menuTheme} changeTheme={changeTheme} />
+      <SideMenu menuTheme={menuTheme} changeThemeAction={changeThemeAction} />
       <div className="page-content">{children}</div>
     </div>
   );

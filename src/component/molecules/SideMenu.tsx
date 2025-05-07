@@ -1,11 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import {
-  BulbOutlined,
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-} from "@ant-design/icons";
+import { BulbOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import type { MenuProps, MenuTheme } from "antd";
 import { Menu, Switch, Button } from "antd";
 import { KEY_MAP_TO_PATH } from "@/utils/const";
@@ -21,19 +17,14 @@ interface LevelKeysProps {
 
 type ISideMenu = {
   menuTheme: MenuTheme;
-  changeTheme: (value: boolean) => void;
+  changeThemeAction: (value: boolean) => void;
 };
 
-export default function SideMenu({ menuTheme, changeTheme }: ISideMenu) {
+export default function SideMenu({ menuTheme, changeThemeAction }: ISideMenu) {
   const { width } = useGlobalStore((state) => state.screenSize);
   const pathname = usePathname();
 
-  const [collapsed, setCollapsed] = useState(false);
   const [stateOpenKeys, setStateOpenKeys] = useState(["sub1", "sub2"]);
-
-  const toggleCollapsed = () => {
-    setCollapsed(!collapsed);
-  };
 
   const getValidKeys = (items: MenuItem[]): string[] => {
     const keys: string[] = [];
@@ -116,7 +107,7 @@ export default function SideMenu({ menuTheme, changeTheme }: ISideMenu) {
       <div className="side-menu__switch">
         <Switch
           checked={menuTheme === "dark"}
-          onChange={changeTheme}
+          onChange={changeThemeAction}
           checkedChildren="Dark"
           unCheckedChildren="Light"
         />
