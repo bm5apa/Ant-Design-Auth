@@ -5,15 +5,18 @@
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-rgb: 255, 255, 255;
-  --dark-mode-main-background: #000000;
-  --dark-mode-white-text: #ffffff;
-  --dark-mode-selected-background: #b2f1e8;
-  --dark-mode-selected-middle-text: #58d1c9;
-  --dark-mode-selected-menu-background: #33bcb7;
-  --dark-mode-switch-dark-background: #146262;
-  --dark-mode-button-dark-background: #144848;
-  --dark-mode-menu-background: #113536;
-  --dark-mode-selected-dark-text: #112123;
+  --dark-mode-main-black: #000000;
+  --dark-mode-main-white: #ffffff;
+  --dark-mode-cyan10: #b2f1e8;
+  --dark-mode-cyan9: #84e2d8;
+  --dark-mode-cyan8: #58d1c9;
+  --dark-mode-cyan7: #33bcb7;
+  --dark-mode-cyan6: #13a8a8;
+  --dark-mode-cyan5: #138585;
+  --dark-mode-cyan4: #146262;
+  --dark-mode-cyan3: #144848;
+  --dark-mode-cyan2: #113536;
+  --dark-mode-cyan1: #112123;
 }
 
 body {
@@ -105,43 +108,50 @@ a {
 }
 
 .side-menu__switch .ant-switch.ant-switch-checked {
-  background-color: var(--dark-mode-switch-dark-background);
+  background-color: var(--dark-mode-cyan4);
 }
 
 .side-menu__switch
   .ant-switch.ant-switch-checked:hover:not(.ant-switch-disabled) {
-  background-color: var(--dark-mode-switch-dark-background);
+  background-color: var(--dark-mode-cyan4);
 }
 
-@media (max-width: 1366px) {
+@media (max-width: 800px) {
+  .general-page-container.container-fluid {
+    overflow: hidden;
+  }
+
+  .ant-menu-submenu-title > .ant-menu-title-content {
+    display: none;
+  }
 }
 
-@media (max-width: 1024px) {
-}
+@media (max-width: 575px) {
+  .general-page-container.container-fluid {
+    padding: 0px 20px;
+  }
 
-@media (max-width: 991px) {
-}
-
-@media (max-width: 650px) {
-}
-
-@media (max-width: 390px) {
+  .side-menu__container {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+  }
 }
 
 /* ================== Dark Mode ================== */
 
 .general-page-container.container-fluid.dark {
-  background-color: var(--dark-mode-main-background);
+  background-color: var(--dark-mode-main-black);
 }
 
 .general-page-container.container-fluid.dark * {
-  color: var(--dark-mode-white-text);
+  color: var(--dark-mode-main-white);
 }
 
 .general-page-container.container-fluid.dark
   .ant-menu-submenu
   .ant-menu-submenu-title {
-  background-color: var(--dark-mode-menu-background);
+  background-color: var(--dark-mode-cyan2);
 }
 
 .general-page-container.container-fluid.dark
@@ -154,33 +164,35 @@ a {
   .ant-menu-submenu-selected
   > .ant-menu-submenu-title
   * {
-  color: var(--dark-mode-selected-menu-background);
+  color: var(--dark-mode-cyan7);
 }
 
-.general-page-container.container-fluid.dark .ant-menu {
-  background-color: var(--dark-mode-main-background);
-  border-inline-end: 1px solid var(--dark-mode-selected-dark-text);
-  border-block-end: 1px solid var(--dark-mode-selected-dark-text);
+.general-page-container.container-fluid.dark .side-menu__container .ant-menu {
+  background-color: var(--dark-mode-main-black);
+}
+
+.general-page-container.container-fluid.dark .m-side-menu__container .ant-menu {
+  background-color: var(--dark-mode-main-black);
 }
 
 .general-page-container.container-fluid.dark .ant-menu-item-selected {
-  background-color: var(--dark-mode-selected-background);
+  background-color: var(--dark-mode-cyan10);
 }
 
 .general-page-container.container-fluid.dark .ant-menu-item-selected span a {
-  color: var(--dark-mode-selected-dark-text);
+  color: var(--dark-mode-cyan1);
 }
 
 .general-page-container.container-fluid.dark
   :where(.css-dev-only-do-not-override-1261szd).ant-menu-inline
   .ant-menu-sub.ant-menu-inline
   .ant-menu-item-group-title {
-  color: var(--dark-mode-selected-middle-text);
+  color: var(--dark-mode-cyan10);
 }
 
 .general-page-container.container-fluid.dark .ant-btn {
-  background-color: var(--dark-mode-switch-dark-background);
-  border-color: var(--dark-mode-switch-dark-background);
+  background-color: var(--dark-mode-cyan4);
+  border-color: var(--dark-mode-cyan4);
 }
 
 .general-page-container.container-fluid.dark
@@ -190,69 +202,69 @@ a {
 }
 
 .general-page-container.container-fluid.dark .ant-divider {
-  border-block-start: 1px solid var(--dark-mode-selected-menu-background);
+  border-block-start: 1px solid var(--dark-mode-cyan7);
 }
 
 .general-page-container.container-fluid.dark .ant-input {
-  color: var(--dark-mode-selected-background);
-  background-color: var(--dark-mode-main-background);
+  color: var(--dark-mode-cyan10);
+  background-color: var(--dark-mode-main-black);
 }
 
 .general-page-container.container-fluid.dark .ant-btn-variant-solid {
-  background-color: var(--dark-mode-button-dark-background);
-  border-color: var(--dark-mode-main-background);
+  background-color: var(--dark-mode-cyan3);
+  border-color: var(--dark-mode-main-black);
 }
 
 .general-page-container.container-fluid.dark .ant-input-affix-wrapper {
-  background-color: var(--dark-mode-main-background);
+  background-color: var(--dark-mode-main-black);
 }
 
 .general-page-container.container-fluid.dark
   .ant-input-password
   .ant-input::placeholder {
-  color: var(--dark-mode-switch-dark-background);
+  color: var(--dark-mode-cyan4);
 }
 
 .general-page-container.container-fluid.dark .ant-input-outlined:hover {
-  border-color: var(--dark-mode-selected-middle-text);
+  border-color: var(--dark-mode-cyan8);
 }
 
 .general-page-container.container-fluid.dark .ant-input-outlined:focus-within {
-  border-color: var(--dark-mode-selected-middle-text);
+  border-color: var(--dark-mode-cyan8);
 }
 
 .general-page-container.container-fluid.dark .ant-input-outlined::placeholder {
-  color: var(--dark-mode-switch-dark-background);
+  color: var(--dark-mode-cyan4);
 }
 
 .general-page-container.container-fluid.dark
   .ant-form-item
   .ant-form-item-label
   > label.ant-form-item-required::before {
-  color: var(--dark-mode-selected-background);
+  color: var(--dark-mode-cyan10);
 }
 
 .general-page-container.container-fluid.dark
   .ant-checkbox-checked
   .ant-checkbox-inner {
-  background-color: var(--dark-mode-switch-dark-background);
-  border-color: var(--dark-mode-switch-dark-background);
+  background-color: var(--dark-mode-cyan4);
+  border-color: var(--dark-mode-cyan4);
 }
 
 .general-page-container.container-fluid.dark
   .ant-checkbox-wrapper:not(.ant-checkbox-wrapper-disabled):hover
   .ant-checkbox-checked:not(.ant-checkbox-disabled)
   .ant-checkbox-inner {
-  background-color: var(--dark-mode-switch-dark-background);
+  background-color: var(--dark-mode-cyan4);
 }
 
 .general-page-container.container-fluid.dark .ant-card {
-  background-color: var(--dark-mode-main-background);
+  background-color: var(--dark-mode-main-black);
 }
 
 .general-page-container.container-fluid.dark .ant-card-bordered {
-  background-color: var(--dark-mode-selected-dark-text);
-  border-color: var(--dark-mode-selected-dark-text);
+  background-color: var(--dark-mode-cyan1);
+  border-color: var(--dark-mode-cyan1);
 }
 
 /* ================== Dark Mode ================== */

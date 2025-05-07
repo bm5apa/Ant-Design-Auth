@@ -1,3 +1,4 @@
+import { MOBILE_SIZE, TABLET_SIZE } from "@/utils/theme";
 import { create } from "zustand";
 
 export interface IScreenSize {
@@ -30,9 +31,9 @@ export const useGlobalStore = create<IGlobalStore>((set, get) => ({
 }));
 
 const screenCalculator = (width: number): IScreenSize["screen"] => {
-  if (width <= 800 && width > 450) {
+  if (width <= TABLET_SIZE && width > MOBILE_SIZE) {
     return "tablet";
-  } else if (width <= 450) {
+  } else if (width <= MOBILE_SIZE) {
     return "mobile";
   } else {
     return "desktop";

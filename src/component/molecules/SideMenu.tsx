@@ -1,11 +1,16 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { BulbOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
+import {
+  BulbOutlined,
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+} from "@ant-design/icons";
 import type { MenuProps, MenuTheme } from "antd";
-import { Menu, Switch } from "antd";
+import { Menu, Switch, Button } from "antd";
 import { KEY_MAP_TO_PATH } from "@/utils/const";
 import { usePathname } from "next/navigation";
+import { useGlobalStore } from "@/stores/global.store";
 
 type MenuItem = Required<MenuProps>["items"][number];
 
@@ -20,6 +25,7 @@ type ISideMenu = {
 };
 
 export default function SideMenu({ menuTheme, changeTheme }: ISideMenu) {
+  const { width } = useGlobalStore((state) => state.screenSize);
   const pathname = usePathname();
 
   const [collapsed, setCollapsed] = useState(false);
@@ -100,11 +106,11 @@ export default function SideMenu({ menuTheme, changeTheme }: ISideMenu) {
     <div className="side-menu__container">
       <Menu
         onClick={onClick}
-        style={{ width: 250 }}
+        style={{ width: width <= 800 ? 75 : 250 }}
         selectedKeys={stateSelectedKeys}
         openKeys={stateOpenKeys}
         onOpenChange={onOpenChange}
-        mode="inline"
+        mode={width <= 800 ? "vertical" : "inline"}
         items={items}
       />
       <div className="side-menu__switch">
