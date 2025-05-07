@@ -41,11 +41,11 @@ A modern authentication system built with **React**, **Ant Design**, and a **fak
 
 ## Features
 
-- 🔒 Login and signup with form validation
-- 📊 Password strength indicator
-- 🌙 Dark mode toggle
 - 📱 Responsive design with Ant Design
-- 🔑 Mock password recovery (simulated due to fake backend)
+- 🌙 Dark mode toggle ＊＊＊＊＊＊＊
+- 🔒 Login and signup with form validation ＊＊＊＊＊＊＊
+- 📊 Password strength indicator ＊＊＊＊＊＊＊
+- 🔑 Mock password recovery (simulated due to fake backend) ＊＊＊＊＊＊＊
 
 ## Limitations
 

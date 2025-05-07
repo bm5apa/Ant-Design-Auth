@@ -94,7 +94,7 @@ export default function SideMenu({ menuTheme, changeTheme }: ISideMenu) {
     <div className="side-menu__container">
       <Menu
         onClick={onClick}
-        style={{ width: 300 }}
+        style={{ width: 250 }}
         selectedKeys={stateSelectedKeys}
         openKeys={stateOpenKeys}
         onOpenChange={onOpenChange}
