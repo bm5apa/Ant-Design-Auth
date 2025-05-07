@@ -41,7 +41,7 @@ A modern authentication system built with **React**, **Ant Design**, and a **fak
 
 ## Features
 
-- 📱 Responsive design with Ant Design
+- 📱 Responsive design with Ant Design ＊＊＊＊＊＊＊
 - 🌙 Dark mode toggle ＊＊＊＊＊＊＊
 - 🔒 Login and signup with form validation ＊＊＊＊＊＊＊
 - 📊 Password strength indicator ＊＊＊＊＊＊＊
