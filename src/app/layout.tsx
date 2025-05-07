@@ -17,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className} style={{ backgroundColor: "white" }}>
+      <body className={inter.className}>
         <ConfigProvider>
           <AntApp>{children}</AntApp>
         </ConfigProvider>

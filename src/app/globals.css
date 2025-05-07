@@ -5,11 +5,19 @@
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-rgb: 255, 255, 255;
+  --dark-mode-main-background: #000000;
+  --dark-mode-white-text: #ffffff;
+  --dark-mode-menu-background: #113536;
+  --dark-mode-switch-dark-background: #146262;
+  --dark-mode-selected-menu-background: #33bcb7;
+  --dark-mode-selected-background: #b2f1e8;
+  --dark-mode-selected-middle-text: #58d1c9;
+  --dark-mode-selected-dark-text: #112123;
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: rgb(var(--background-rgb));
+  color: var(--foreground-rgb);
+  background: var(--background-rgb);
 }
 
 html,
@@ -20,6 +28,22 @@ body {
   min-height: 100vh;
   margin: 0;
   padding: 0;
+}
+
+html:has(.dark) {
+  background-color: var(--background-rgb);
+  color: var(--foreground-rgb);
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
 }
 
 #__next {
@@ -73,6 +97,16 @@ body {
   max-width: 500px;
 }
 
+.side-menu__switch {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0px;
+}
+
+.side-menu__switch .ant-switch.ant-switch-checked {
+  background-color: var(--dark-mode-switch-dark-background);
+}
+
 @media (max-width: 1366px) {
 }
 
@@ -88,19 +122,54 @@ body {
 @media (max-width: 390px) {
 }
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+/* ================== Dark Mode ================== */
+
+.general-page-container.container-fluid.dark {
+  background-color: var(--dark-mode-main-background);
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+.general-page-container.container-fluid.dark * {
+  color: var(--dark-mode-white-text);
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+.general-page-container.container-fluid.dark
+  .ant-menu-submenu
+  .ant-menu-submenu-title {
+  background-color: var(--dark-mode-menu-background);
 }
+
+.general-page-container.container-fluid.dark
+  :where(.css-dev-only-do-not-override-1261szd).ant-menu-light
+  .ant-menu-submenu-selected
+  > .ant-menu-submenu-title
+  *,
+:where(.css-dev-only-do-not-override-1261szd).ant-menu-light
+  > .ant-menu
+  .ant-menu-submenu-selected
+  > .ant-menu-submenu-title
+  * {
+  color: var(--dark-mode-selected-menu-background);
+}
+
+.general-page-container.container-fluid.dark .ant-menu {
+  background-color: var(--dark-mode-main-background);
+  border-inline-end: 1px solid var(--dark-mode-selected-dark-text);
+  border-block-end: 1px solid var(--dark-mode-selected-dark-text);
+}
+
+.general-page-container.container-fluid.dark .ant-menu-item-selected {
+  background-color: var(--dark-mode-selected-background);
+}
+
+.general-page-container.container-fluid.dark .ant-menu-item-selected span a {
+  color: var(--dark-mode-selected-dark-text);
+}
+
+.general-page-container.container-fluid.dark
+  :where(.css-dev-only-do-not-override-1261szd).ant-menu-inline
+  .ant-menu-sub.ant-menu-inline
+  .ant-menu-item-group-title {
+  color: var(--dark-mode-selected-middle-text);
+}
+
+/* ================== Dark Mode ================== */

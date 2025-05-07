@@ -2,9 +2,10 @@
 
 import React, { useEffect, useState } from "react";
 import { BulbOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
-import type { MenuProps } from "antd";
-import { Menu } from "antd";
+import type { MenuProps, MenuTheme } from "antd";
+import { Menu, Switch } from "antd";
 import { KEY_MAP_TO_PATH } from "@/utils/const";
+import { usePathname } from "next/navigation";
 
 type MenuItem = Required<MenuProps>["items"][number];
 
@@ -13,7 +14,14 @@ interface LevelKeysProps {
   children?: LevelKeysProps[];
 }
 
-export default function SideMenu() {
+type ISideMenu = {
+  menuTheme: MenuTheme;
+  changeTheme: (value: boolean) => void;
+};
+
+export default function SideMenu({ menuTheme, changeTheme }: ISideMenu) {
+  const pathname = usePathname();
+
   const getValidKeys = (items: MenuItem[]): string[] => {
     const keys: string[] = [];
     const extractKeys = (item: MenuItem) => {
@@ -31,18 +39,18 @@ export default function SideMenu() {
     items.forEach(extractKeys);
     return keys;
   };
+
   const validKeys = getValidKeys(items);
 
-  const getInitialSelectedKey = () => {
-    const currentPath = window.location.pathname;
-    const mapItem = KEY_MAP_TO_PATH.find((item) => item.path === currentPath);
+  const getSelectedKey = () => {
+    const mapItem = KEY_MAP_TO_PATH.find((item) => item.path === pathname);
     const key = mapItem ? mapItem.key : "1";
     return validKeys.includes(key) ? [key] : ["1"];
   };
 
   const [stateOpenKeys, setStateOpenKeys] = useState(["sub1", "sub2"]);
   const [stateSelectedKeys, setStateSelectedKeys] = useState<string[]>(
-    getInitialSelectedKey()
+    getSelectedKey()
   );
 
   const onClick: MenuProps["onClick"] = (e) => {
@@ -69,16 +77,18 @@ export default function SideMenu() {
   };
 
   useEffect(() => {
-    const handlePathChange = () => {
-      const newKeys = getInitialSelectedKey();
-      setStateSelectedKeys(newKeys);
-      console.log("Path changed, new selectedKeys:", newKeys);
-    };
-    window.addEventListener("popstate", handlePathChange);
-    return () => {
-      window.removeEventListener("popstate", handlePathChange);
-    };
-  }, []);
+    const newKeys = getSelectedKey();
+    setStateSelectedKeys(newKeys);
+    if (pathname === "/dashboard" && !stateOpenKeys.includes("sub2")) {
+      setStateOpenKeys((prev) => [...new Set([...prev, "sub2"])]);
+    }
+    console.log(
+      "Path changed, new selectedKeys:",
+      newKeys,
+      "pathname:",
+      pathname
+    );
+  }, [pathname]);
 
   return (
     <div className="side-menu__container">
@@ -91,6 +101,14 @@ export default function SideMenu() {
         mode="inline"
         items={items}
       />
+      <div className="side-menu__switch">
+        <Switch
+          checked={menuTheme === "dark"}
+          onChange={changeTheme}
+          checkedChildren="Dark"
+          unCheckedChildren="Light"
+        />
+      </div>
     </div>
   );
 }
@@ -103,6 +121,7 @@ const items: MenuItem[] = [
     children: [
       {
         key: "g1",
+        label: "",
         type: "group",
         children: [
           { key: "1", label: <a href="/">Homepage</a> },
